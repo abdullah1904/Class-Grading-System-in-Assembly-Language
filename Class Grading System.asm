@@ -5,6 +5,7 @@ org 100h
 	marksArray DB 50 DUP (?)           
 	idArray DB 50 DUP (?)
 	gradeArray DB 50 DUP (?)
+    marks DB 0
 	MSG1 DB 'Enter the number of students(DOES NOT EXCEED 50): ','$'                                 
 	MSG2 DB 0Dh,0Ah, 0Dh,0Ah,'Enter the IDs of students: ','$'                     
 	MSG3 DB 0Dh,0Ah, 0Dh,0Ah,'Enter the marks of students: ','$'
@@ -38,12 +39,12 @@ main proc
         	PRINT 0DH         
         	CMP SI,numberOfStudents 
         	JNE LOOP1
-    mov dx, offset HR
-    mov ah,9
-    int 21h
-    mov dx, offset MSG4
-    mov ah,9
-    int 21h 
+    MOV DX, offset HR
+    MOV AH,9
+    INT 21h
+    MOV DX, offset MSG4
+    MOV AH,9
+    INT 21h 
     PRINT 0AH 
     PRINT 0DH  	
     MOV SI, 0
@@ -53,7 +54,45 @@ main proc
         	CALL PRINT_NUM_UNS    
         	PRINT 09H            
         	MOV AL,marksArray[SI]
-        	CALL PRINT_NUM_UNS
+        	CALL PRINT_NUM_UNS 
+        	PRINT 09H
+            MOV marks,AL 
+            
+            cmp marks,100
+            jg error
+            cmp marks,80
+            jge first 
+            cmp marks,70
+            jge second 
+            cmp marks,60
+            jge third
+            cmp marks,50
+            jge fourth
+            cmp marks,0
+            jge fail
+            cmp marks,0
+            jl error
+            
+            
+            first:
+                print 'A'
+                jmp thread  
+            second:
+                print 'B'
+                jmp thread
+            third:
+                print 'C'
+                jmp thread    
+            fourth:
+                print 'E'
+                jmp thread
+            fail:
+                print 'F'
+                jmp thread 
+            error:
+                print 'Invalid Marks' 
+                jmp thread
+            thread:
         	PRINT 0AH             
         	PRINT 0DH            
         	INC SI 
