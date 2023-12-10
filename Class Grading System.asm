@@ -7,10 +7,10 @@ org 100h
 	gradeArray DB 50 DUP (?)
     marks DB 0
 	MSG1 DB 'Enter the number of students(DOES NOT EXCEED 50): ','$'                                 
-	MSG2 DB 0Dh,0Ah, 0Dh,0Ah,'Enter the IDs of students: ','$'                     
+	MSG2 DB 'Enter the IDs of students: ','$'                     
 	MSG3 DB 0Dh,0Ah, 0Dh,0Ah,'Enter the marks of students: ','$'
 	MSG4 DB 0Dh,0Ah, 0Dh,0Ah,'ID: ',09H,'MARKS:',09H,'GRADE:','$'                                
-	HR DB 0Dh,0Ah, 0Dh,0Ah,'*******************Class Result***********************','$'    
+	HR DB '******************* Class Result ***********************','$'    
 
 .code
 main proc
@@ -22,8 +22,12 @@ main proc
     call scan_num
     mov numberOfStudents,cx 
     
+    
+    
     MOV SI, 0
     LOOP1:  
+            mov ax, 3
+            int 10h 
             mov dx, offset MSG2	
             mov ah,9
             int 21h
@@ -39,6 +43,8 @@ main proc
         	PRINT 0DH         
         	CMP SI,numberOfStudents 
         	JNE LOOP1
+    mov ax, 3
+    int 10h
     MOV DX, offset HR
     MOV AH,9
     INT 21h
@@ -60,35 +66,65 @@ main proc
             
             cmp marks,100
             jg error
-            cmp marks,80
+            cmp marks,90
             jge first 
-            cmp marks,70
+            cmp marks,85
             jge second 
-            cmp marks,60
+            cmp marks,80
             jge third
+            cmp marks,75
+            jge fourth  
+            cmp marks,70
+            jge fifth  
+            cmp marks,65
+            jge sixth  
+            cmp marks,60
+            jge seventh  
+            cmp marks,55
+            jge eighth  
             cmp marks,50
-            jge fourth
-            cmp marks,0
+            jge ninth 
+            cmp marks,50
+            jge ninth
+            cmp marks,40
             jge fail
             cmp marks,0
             jl error
             
             
             first:
-                print 'A'
+                print 'A+'
                 jmp thread  
             second:
-                print 'B'
+                print 'A'
                 jmp thread
             third:
-                print 'C'
+                print 'A-'
                 jmp thread    
             fourth:
+                print 'B+'
+                jmp thread
+            fifth:
+                print 'B'
+                jmp thread
+            sixth:
+                print 'C+'
+                jmp thread
+            seventh:
+                print 'C'
+                jmp thread 
+            eighth:
+                print 'D+'
+                jmp thread
+            ninth:
+                print 'D'
+                jmp thread 
+            tenth:
                 print 'E'
                 jmp thread
             fail:
                 print 'F'
-                jmp thread 
+                jmp thread
             error:
                 print 'Invalid Marks' 
                 jmp thread
