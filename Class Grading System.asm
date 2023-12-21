@@ -18,8 +18,8 @@ main proc
     mov ds,ax
     
     start:
-    mov ax,3
-    int 10h
+    mov ax,3      
+    int 10h        
     mov dx,offset MSG1
     mov ah,9
     int 21h 
@@ -39,10 +39,11 @@ main proc
         mov cx,0
         jmp start 
     mainStart:
+    mov ax, 3
+    int 10h
     mov si, 0
     LOOP1:  
-            mov ax, 3
-            int 10h 
+             
             mov dx, offset MSG2	
             mov ah,9
             int 21h
@@ -52,7 +53,7 @@ main proc
             mov ah,9
             int 21h
             call scan_num
-            mov marksArray[SI],CL
+            mov marksArray[si],CL
         	inc si  
         	print 0ah        
         	print 0dh         
